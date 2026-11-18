@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>音阶指型六线谱 · 标准调弦 EADGBE</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314161a'/><text x='8' y='12' font-size='11' text-anchor='middle' fill='%23e05c5c'>♯</text></svg>" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <h1>音阶指型六线谱</h1>
+  <p class="sub">标准调弦 EADGBE · do / re / mi / fa / sol / la / ti 七指型，每个指型含把位指板、把位谱、每弦三音指板与每弦三音谱</p>
+</header>
+
+
+<section class="controls">
+  <div class="row">
+    <label class="lbl">主音</label>
+    <div id="roots" class="roots"></div>
+  </div>
+
+  <div class="row">
+    <label class="lbl" for="scale">音阶</label>
+    <select id="scale"></select>
+
+    <label class="lbl">指型</label>
+    <div id="shapes" class="roots"></div>
+  </div>
+
+  <div class="row">
+    <label class="lbl" for="view">谱型</label>
+    <select id="view">
+      <option value="both">把位 + 每弦三音</option>
+      <option value="pos">只看把位</option>
+      <option value="3nps">只看每弦三音</option>
+    </select>
+
+    <label class="lbl" for="maxFret">最高品</label>
+    <select id="maxFret">
+      <option value="12">12</option>
+      <option value="15" selected>15</option>
+      <option value="17">17</option>
+    </select>
+
+    <label class="chk"><input type="checkbox" id="flat" /> 用降号</label>
+    <label class="chk"><input type="checkbox" id="showDegrees" checked /> 标注级数</label>
+    <label class="chk"><input type="checkbox" id="showFingers" checked /> 标注指法</label>
+    <label class="chk"><input type="checkbox" id="showCaged" /> 对照 CAGED 五型</label>
+  </div>
+
+  <div class="scale-note" id="scaleNote"></div>
+  <div class="summary" id="summary"></div>
+</section>
+
+<section class="neck">
+  <div class="neck-head">
+    <h2>指板图</h2>
+    <span class="neck-sel" id="neckSel"></span>
+    <span class="neck-tools">
+      <label class="chk">视图
+        <select id="neckMode">
+          <option value="scale">音阶</option>
+          <option value="arpeggio">琶音（只画和弦音）</option>
+        </select>
+      </label>
+      <label class="chk">圆点
+        <select id="neckLabel">
+          <option value="note">音名</option>
+          <option value="degree">级数</option>
+        </select>
+      </label>
+      <label class="chk">速度
+        <select id="tempo">
+          <option value="60">慢 60</option>
+          <option value="90">中 90</option>
+          <option value="132">快 132</option>
+        </select>
+      </label>
+      <button id="neckPlay" class="btn-play" title="按音高上行播放当前指型">▶ 播放</button>
+    </span>
+  </div>
+
+  <div class="chord-row">
+    <label class="chk"><input type="checkbox" id="chordOn" /> 叠加和弦音</label>
+    <label class="lbl" for="chordRoot">根音</label>
+    <select id="chordRoot"></select>
+    <label class="lbl" for="chordQuality">性质</label>
+    <select id="chordQuality"></select>
+    <span class="chord-name" id="chordName"></span>
+    <span class="neck-legend" id="neckLegend">
+      <span class="lg"><i class="dot root"></i>主音</span>
+      <span class="lg" id="lgChord"><i class="dot chord"></i>和弦音</span>
+      <span class="lg" id="lgScale"><i class="dot"></i>音阶音</span>
+      <span class="lg" id="lgOut"><i class="dot outside"></i>音阶外的和弦音</span>
+    </span>
+  </div>
+
+  <div id="neck" class="neck-body"></div>
+  <div class="neck-info" id="neckInfo">点圆点试听，同时把下方谱上这个音点亮</div>
+</section>
+
+<main id="out"></main>
+
+<footer>
+  <p>红色数字 = 主音。指型名取该指型最低音（第 6 弦起点）的首调唱名：do 指型从主音起，re 指型从二级起，依此类推；小调按 la 起排。</p>
+  <p>上方指板图画的是整条琴颈上的该音阶，主音标红；选中单个指型时，只有该把位内的音是亮的，方便和下面的谱对照。点击音符可以试听。</p>
+  <p>把位 = 五格框：框画在 [主音−1, 主音+3]，框内的音阶音全部列出、全部可点可响，框外一律不亮。两条边界规则：<b>6 弦是指型起点，只收主音及以上</b>（C 大调 do 型的 6 弦 7 品 si 在框里但不亮，因为第一个音必须是 do）；<b>同一个音高在两根弦上都按得到时只留一个</b>（留主音格右侧的，丢掉左侧补充格上的重复音，C 大调 ti 型就是这么去掉 2 弦 6 品那个 F 的）。每弦三音 = 3NPS，六根弦各 3 音。</p>
+  <p>和弦音叠加：音阶音分三层——红色主音、橙色和弦音、深色纯音阶音；和弦根音离开主音时，还会出现虚线橙圈，表示"属于这个和弦、但不在当前音阶里"的紧张音（比如 C 大调上的 E7，G# 就是）。谱上同一套配色。视图切到「琶音」则只留和弦音，圆点显示 R / b3 / 5 / b7。</p>
+</footer>
+
+<script src="lib/vexflow.js"></script>
+<script>
+  // 本地有 lib/vexflow.js 时离线可用；仓库里不带这个大文件，缺失时回退到 CDN。
+  // 用 document.write 同步插入，保证下面的模块执行前 window.Vex 已就绪。
+  if (!window.Vex) {
+    document.write('<script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"><\/script>');
+  }
+</script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

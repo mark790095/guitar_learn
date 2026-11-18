@@ -1,0 +1,110 @@
+:root {
+  color-scheme: dark;
+  --bg: #14161a;
+  --panel: #1c1f26;
+  --panel-2: #22262e;
+  --line: #343a45;
+  --text: #e7e9ef;
+  --muted: #98a0b3;
+  --red: #e05c5c;
+  --orange: #e0a860;
+  --blue: #7f9bd2;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  min-width: 980px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+header, .controls, .neck, main, footer { width: min(1440px, calc(100% - 40px)); margin-inline: auto; }
+header { padding: 24px 0 14px; }
+h1 { margin: 0 0 4px; font-size: 25px; letter-spacing: .2px; }
+h2 { margin: 0; font-size: 17px; }
+.sub { margin: 0; color: var(--muted); }
+
+.controls, .neck, .card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+.controls { padding: 15px 17px; margin-bottom: 16px; }
+.row, .chord-row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 11px; }
+.row:last-child, .chord-row:last-child { margin-bottom: 0; }
+.lbl { color: var(--muted); font-size: 12px; }
+select, button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+select { padding: 6px 9px; }
+button { padding: 6px 10px; cursor: pointer; }
+button:hover { border-color: #687386; }
+.roots { display: flex; flex-wrap: wrap; gap: 4px; }
+.roots button { min-width: 28px; padding: 5px 8px; }
+.roots button.on { color: #fff; border-color: var(--red); background: #452b32; }
+.chk { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); white-space: nowrap; }
+input { accent-color: var(--red); }
+
+.scale-note, .summary { color: var(--muted); }
+.scale-note { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-top: 10px; }
+.scale-note .sn-line { flex-basis: 100%; }
+.sn-tag, .sn-meta { color: var(--orange); }
+.summary { margin-top: 8px; }
+.warn { color: var(--orange); }
+
+.neck { padding: 15px 17px; margin-bottom: 16px; }
+.neck-head { display: flex; align-items: center; gap: 12px; margin-bottom: 11px; }
+.neck-sel { color: var(--muted); font-size: 12px; }
+.neck-tools { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-left: auto; }
+.neck-tools .chk { font-size: 12px; }
+.neck-body { width: 100%; overflow-x: auto; }
+.neck-svg { display: block; width: 100%; min-width: 900px; height: auto; }
+.neck-info { margin-top: 8px; color: var(--muted); font-size: 12px; }
+.neck-legend { display: flex; gap: 12px; margin-left: auto; }
+.lg { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 12px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #566176; }
+.dot.root { background: var(--red); }
+.dot.chord { background: #c9873c; }
+.dot.outside { background: transparent; border: 1px dashed var(--orange); }
+.btn-play { color: var(--text); }
+.btn-play:hover { border-color: var(--red); }
+.neck-note { transition: opacity .12s; }
+.neck-note.lit circle { stroke: #fff; stroke-width: 2.5; }
+
+main { display: flex; flex-direction: column; gap: 18px; }
+.pattern-section { display: flex; flex-direction: column; gap: 10px; }
+.pattern-section-title { padding-bottom: 7px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+.card { width: 100%; min-width: 0; padding: 12px 14px; overflow: hidden; }
+.card h2 { font-size: 16px; }
+.card .meta { margin: 3px 0 8px; color: var(--muted); font-size: 12px; }
+.card .pattern-neck { margin: 8px -4px 4px; overflow-x: auto; border-block: 1px solid var(--line); }
+.card .pattern-neck .neck-svg { width: 100%; min-width: 0; height: auto; }
+.card .three-nps-neck .neck-svg { width: 100%; min-width: 0; height: auto; }
+.card .tab { width: 100%; margin-top: 4px; overflow: hidden; }
+.card .tab svg { width: 100%; height: auto; }
+.card svg { display: block; }
+.empty { padding: 20px; color: var(--muted); }
+footer { padding: 8px 0 30px; color: var(--muted); font-size: 12px; }
+footer p { margin: 8px 0; }
+
+@media (max-width: 760px) {
+  body { min-width: 0; }
+  header, .controls, .neck, main, footer { width: calc(100% - 20px); }
+  header { padding-top: 16px; }
+  .controls, .neck { padding: 12px; }
+  .neck-head { align-items: flex-start; flex-wrap: wrap; }
+  .neck-tools { width: 100%; margin-left: 0; }
+}
+
+@media print {
+  body { background: #fff; color: #111; }
+  .controls, .neck { display: none; }
+  .card { break-inside: avoid; border-color: #ccc; }
+  .card h2, .card .meta, footer { color: #000; }
+}
